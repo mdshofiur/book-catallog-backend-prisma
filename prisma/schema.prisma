@@ -19,3 +19,19 @@ model User {
   profileImg String?
 }
 
+model Category {
+  id     String  @id @default(uuid()) // Generates a UUID
+  title  String  // A string representing the category title
+  books  Book[]  @relation("BooksInCategory") // Define the opposite relation
+}
+
+model Book {
+  id              String   @id @default(uuid()) // Generates a UUID
+  title           String
+  author          String
+  price           Float
+  genre           String
+  publicationDate String
+  categoryId      String   // Assuming that categoryId is a UUID
+  category        Category @relation("BooksInCategory", fields: [categoryId], references: [id])
+}
