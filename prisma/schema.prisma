@@ -17,6 +17,7 @@ model User {
   contactNo  String?
   address    String?
   profileImg String?
+  reviews    ReviewAndRating[] // Add this relation field
 }
 
 model Category {
@@ -34,4 +35,16 @@ model Book {
   publicationDate String
   categoryId      String   // Assuming that categoryId is a UUID
   category        Category @relation("BooksInCategory", fields: [categoryId], references: [id])
+  reviews         ReviewAndRating[] // Add this relation field
 }
+
+
+model ReviewAndRating {
+      review  String
+      rating  Int     @default(0)
+      userId  String  // Assuming userId is a UUID
+      bookId  String  // Assuming bookId is a UUID
+      user    User    @relation(fields: [userId], references: [id])
+      book    Book    @relation(fields: [bookId], references: [id])
+      @@id([userId, bookId])
+    }
