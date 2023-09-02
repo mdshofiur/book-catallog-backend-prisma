@@ -3,7 +3,9 @@ import { UserData } from '../../types/user.type';
 
 const prisma = new PrismaClient();
 
-// Create a new user
+/* -------------------------------------------------------------------------- */
+/*                          Create a new user Service                         */
+/* -------------------------------------------------------------------------- */
 export const createUserService = async (userData:UserData) => {
   try {
     const newUser = await prisma.user.create({
@@ -16,24 +18,45 @@ export const createUserService = async (userData:UserData) => {
 };
 
 
-// Define a type for the authentication result
-type AuthenticationResult = {
+/* -------------------------------------------------------------------------- */
+/*                             Authenticate user                             */
+/* -------------------------------------------------------------------------- */
+type FailedResult = {
   success: boolean;
   user: User | null;
 };
 
+
+type SuccessResult = {
+  userId: string;
+  role: string;
+}
+
 export const authenticateUserService = async (
   email: string,
   password: string
-): Promise<AuthenticationResult> => {
+): Promise<FailedResult | SuccessResult | any> => {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user || user.password !== password) {
       return { success: false, user: null}; // Authentication failed
     }
-    return { success: true, user }; // Authentication successful
+    return {userId: user.id, role: user.role }; // Authentication successful
   } catch (error) {
-    return { success: false, user: null }; 
+    return { success: false, user: null};
   }
 };
 
+
+/* -------------------------------------------------------------------------- */
+/*                             Get all users                                 */
+/* -------------------------------------------------------------------------- */
+
+export const getAllUsersService = async () => {
+  try {
+    const users = await prisma.user.findMany();
+    return users;
+  } catch (error) {
+    throw new Error('An error occurred while getting the users.');
+  }
+};

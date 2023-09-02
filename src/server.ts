@@ -16,6 +16,8 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use('/api/v1/auth', UserRouters);
 
+app.use('/api/v1', UserRouters);
+
 
 app.listen(port, async () => {
   console.log(`⚡️[server]: Server is running at ${port}`);

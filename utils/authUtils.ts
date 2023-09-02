@@ -1,16 +1,22 @@
 import jwt from 'jsonwebtoken';
 import { User } from '.prisma/client'; 
+import { UserData } from '../src/types/user.type';
 
-const JWT_SECRET = 'your-secret-key';
+const JWT_SECRET = 'secret';
 
-export const generateAuthToken = (user: User): string => {
+type ResultType = {
+    role: string;
+    userId: string;
+}
+
+export const generateAuthToken = (user: ResultType) => {
   const payload = {
-    userId: user.id,
+    userId: user.userId,
     role: user.role,
   };
-
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // Token expires in 1 hour
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: '1y' });
 };
+
 
 export const verifyAuthToken = (token: string): Promise<User | null> => {
   return new Promise((resolve, reject) => {

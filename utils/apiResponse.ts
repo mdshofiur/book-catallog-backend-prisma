@@ -3,9 +3,10 @@ import { Response } from 'express';
 interface ApiResponse {
   success: boolean;
   statusCode: number;
-  message: string ;
+  message?: string ;
   data?: any;
   error?: string;
+  token?: string;
 }
 
 export const sendApiResponse = (res: Response, data: ApiResponse) => {
@@ -14,5 +15,6 @@ export const sendApiResponse = (res: Response, data: ApiResponse) => {
     statusCode: data.statusCode,
     message: data.message,
     data: data.data,
+    token: data.token,
   });
 };

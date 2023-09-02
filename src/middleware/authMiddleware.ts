@@ -19,6 +19,8 @@ function authenticate(req: Request, res: Response, next: NextFunction): void {
   const token = authHeader.split(" ")[1];
   try {
     const decodedToken = verifyAuthToken(token);
+    // const user = res.locals.user;
+    res.locals.user = decodedToken;
     req.user = decodedToken;
     next();
   } catch (error) {
