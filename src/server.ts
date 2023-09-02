@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import UserRouters from "./module/user/users.routers";
+import BooksRouters from "./module/book/books.routers";
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ app.get("/", (req: Request, res: Response) => {
 app.use('/api/v1/auth', UserRouters);
 
 app.use('/api/v1', UserRouters);
+
+app.use('/api/v1', BooksRouters);
 
 
 app.listen(port, async () => {
