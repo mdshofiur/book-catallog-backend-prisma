@@ -103,7 +103,6 @@ const getAllUsersController = async (req: Request, res: Response): Promise<void>
 }
 
 
-
 export const userController = {
   createUserController,
   SignInController,

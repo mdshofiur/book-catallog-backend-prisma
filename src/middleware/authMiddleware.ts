@@ -15,14 +15,20 @@ function authenticate(req: Request, res: Response, next: NextFunction): void {
     res.status(401).send({ message: "Authorization header missing" });
     return;
   }
-
   const token = authHeader.split(" ")[1];
   try {
     const decodedToken = verifyAuthToken(token);
-    // const user = res.locals.user;
-    res.locals.user = decodedToken;
-    req.user = decodedToken;
-    next();
+    if (typeof decodedToken === 'string') {
+      throw new Error('Invalid token');
+    }
+    if ('userId' in decodedToken && 'role' in decodedToken) {
+      const user = {
+        userId: decodedToken.userId,
+        role: decodedToken.role
+      }
+      res.locals.user = user;
+      next();
+    } 
   } catch (error) {
     res.status(401).send({ message: "Invalid token" });
   }
