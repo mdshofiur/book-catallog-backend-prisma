@@ -117,7 +117,26 @@ export const getAllBooksService = async (
   }
 };
 
+
+/* -------------------------------------------------------------------------- */
+/*                      Get Books by category id service                      */
+/* -------------------------------------------------------------------------- */
+
+const getBooksByCategoryIdService = async (categoryId: string) => {
+  try {
+    const books = await prisma.book.findMany({
+      where: {
+        categoryId,
+      },
+    });
+    return books;
+  } catch (error) {
+    throw new Error('Error fetching books');
+  }
+}
+
 export const booksService = {
   createBookService,
   getAllBooksService,
+  getBooksByCategoryIdService
 };

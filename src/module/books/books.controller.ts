@@ -58,7 +58,33 @@ export const getAllBooksController = async (req: Request, res: Response): Promis
   }
 };
 
+
+/* -------------------------------------------------------------------------- */
+/*                     Get Books by category id controller                    */
+/* -------------------------------------------------------------------------- */
+
+const getBooksByCategoryIdController = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { categoryId } = req.params;
+        const books = await booksService.getBooksByCategoryIdService(categoryId);
+        sendApiResponse(res, {
+            success: true,
+            statusCode: 200,
+            message: 'Books retrieved successfully',
+            data: books,
+        });
+    } catch (error) {
+        sendApiResponse(res, {
+            success: false,
+            statusCode: 500,
+            message: `An error occurred while retrieving the books. ${(error as Error).message}`,
+        });
+    }
+}
+
+
 export const booksController = { 
     createBookController,
-    getAllBooksController
+    getAllBooksController,
+    getBooksByCategoryIdController
 }
