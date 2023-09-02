@@ -11,6 +11,9 @@ const prisma = new PrismaClient();
   try {
     const newBook = await prisma.book.create({
       data: bookData,
+      include: {
+        category: true,
+      },
     });
     return newBook;
   } catch (error) {
@@ -22,29 +25,6 @@ const prisma = new PrismaClient();
 /* -------------------------------------------------------------------------- */
 /*                           Get all books service                            */
 /* -------------------------------------------------------------------------- */
-
-interface GetAllBooksOptions {
-  page: number;
-  size: number;
-  sortBy?: string;
-  sortOrder?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  category?: string;
-  search?: string;
-}
-
-interface GetAllBooksOptions {
-    page: number;
-    size: number;
-    sortBy?: string;
-    sortOrder?: string;
-    minPrice?: number;
-    maxPrice?: number;
-    category?: string;
-    search?: string;
-  }
-  
 
 export const getAllBooksService = async (
   page: number,
@@ -73,15 +53,7 @@ export const getAllBooksService = async (
 
     if (maxPrice !== undefined) {
       if (where.price) {
-        if (maxPrice !== undefined) {
-            if (where.price) {
-                (where.price as any).lte = maxPrice;
-            } else {
-                where.price = {
-                    lte: maxPrice,
-                };
-            }
-        }
+        where.price = {
             lte: maxPrice,
         };
       } else {
@@ -90,7 +62,6 @@ export const getAllBooksService = async (
         };
       }
     }
-
     if (categoryId) {
       where.categoryId = categoryId;
     }
@@ -118,7 +89,7 @@ export const getAllBooksService = async (
       ];
     }
 
-    const total = await prisma.book.count({ where }); // Count total matching books
+    const total = await prisma.book.count({ where }); 
 
     const data = await prisma.book.findMany({
       where,
@@ -145,8 +116,6 @@ export const getAllBooksService = async (
     throw new Error('Error fetching books');
   }
 };
-
-
 
 export const booksService = {
   createBookService,

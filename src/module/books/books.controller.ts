@@ -31,10 +31,9 @@ const createBookController = async (req: Request, res: Response): Promise<void> 
 /*                           Get all books controller                         */
 /* -------------------------------------------------------------------------- */
 
-
 export const getAllBooksController = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { page = 1, size = 10, sortBy = 'title', sortOrder = 'asc', minPrice, maxPrice, categoryId, search } = req.query;
+    const { page = 1, size = 10, sortBy = 'title', sortOrder = 'asc', minPrice, maxPrice, category, search } = req.query;
     const parsedPage = parseInt(page as string, 10);
     const parsedSize = parseInt(size as string, 10);
 
@@ -49,7 +48,7 @@ export const getAllBooksController = async (req: Request, res: Response): Promis
       sortOrder as 'asc' | 'desc',
       parsedMinPrice,
       parsedMaxPrice,
-      categoryId as string | undefined,
+      category as string | undefined,
       search as string | undefined
     );
 
