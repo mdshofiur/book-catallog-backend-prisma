@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { sendApiResponse } from '../../../utils/apiResponse';
-import { booksService } from './books.service';
+import { categoryService } from './category.service';
 
 
 /* -------------------------------------------------------------------------- */
@@ -9,7 +9,7 @@ import { booksService } from './books.service';
 const createCategoryController = async (req: Request, res: Response): Promise<void> => {
     try {
         const { title } = req.body;
-        const newCategory = await booksService.createCategory(title);
+        const newCategory = await categoryService.createCategory(title);
         sendApiResponse(res, {
             success: true,
             statusCode: 200,
@@ -33,7 +33,7 @@ const createCategoryController = async (req: Request, res: Response): Promise<vo
 
 const getAllCategoriesController = async (req: Request, res: Response): Promise<void> => {
     try {
-        const categories = await booksService.getAllCategories();
+        const categories = await categoryService.getAllCategories();
         sendApiResponse(res, {
             success: true,
             statusCode: 200,
@@ -57,7 +57,7 @@ const getAllCategoriesController = async (req: Request, res: Response): Promise<
 const getSingleCategoryController = async (req: Request, res: Response): Promise<void> => {
     try {
         const { id } = req.params;
-        const category = await booksService.getSingleCategory(id);
+        const category = await categoryService.getSingleCategory(id);
         sendApiResponse(res, {
             success: true,
             statusCode: 200,
@@ -81,7 +81,7 @@ const updateCategoryController = async (req: Request, res: Response): Promise<vo
     try {
         const { id } = req.params;
         const { title } = req.body;
-        const updatedCategory = await booksService.updateCategory(id, title);
+        const updatedCategory = await categoryService.updateCategory(id, title);
         sendApiResponse(res, {
             success: true,
             statusCode: 200,
@@ -105,7 +105,7 @@ const updateCategoryController = async (req: Request, res: Response): Promise<vo
 const deleteCategoryController = async (req: Request, res: Response): Promise<void> => {
     try {
         const { id } = req.params;
-        const deletedCategory = await booksService.deleteCategory(id);
+        const deletedCategory = await categoryService.deleteCategory(id);
         sendApiResponse(res, {
             success: true,
             statusCode: 200,
@@ -122,7 +122,7 @@ const deleteCategoryController = async (req: Request, res: Response): Promise<vo
 }
 
 
-export const booksController = {
+export const categoryController = {
     createCategoryController,
     getAllCategoriesController,
     getSingleCategoryController,

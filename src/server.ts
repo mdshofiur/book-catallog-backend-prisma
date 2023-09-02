@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import UserRouters from "./module/user/users.routers";
-import BooksRouters from "./module/book/books.routers";
+import BooksRouters from "./module/category/category.routers";
 
 dotenv.config();
 

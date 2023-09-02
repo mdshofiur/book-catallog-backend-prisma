@@ -90,7 +90,7 @@ const deleteCategory = async (id: string) => {
     }
 }
 
-export const booksService = { 
+export const categoryService = { 
     createCategory,
     getAllCategories,
     getSingleCategory,
