@@ -2,7 +2,9 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import UserRouters from "./module/user/users.routers";
-import BooksRouters from "./module/category/category.routers";
+import CategoryRouters from "./module/category/category.routers";
+import BooksRouters from "./module/books/books.routers";
+
 
 dotenv.config();
 
@@ -19,8 +21,9 @@ app.use('/api/v1/auth', UserRouters);
 
 app.use('/api/v1', UserRouters);
 
-app.use('/api/v1', BooksRouters);
+app.use('/api/v1', CategoryRouters);
 
+app.use('/api/v1/books', BooksRouters);
 
 app.listen(port, async () => {
   console.log(`⚡️[server]: Server is running at ${port}`);
