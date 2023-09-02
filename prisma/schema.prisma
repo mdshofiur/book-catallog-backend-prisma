@@ -9,20 +9,21 @@ generator client {
 
 
 model User {
-  id         String       @id @default(uuid()) // Generates a UUID
+  id         String       @id @default(uuid())
   name       String
   email      String       @unique
   password   String
-  role       String       // You can add an enum for 'admin' or 'customer'
+  role       String  
   contactNo  String?
   address    String?
   profileImg String?
   reviews    ReviewAndRating[] // Add this relation field
+  orders     Order[]        // Define the opposite relation
 }
 
 model Category {
-  id     String  @id @default(uuid()) // Generates a UUID
-  title  String  // A string representing the category title
+  id     String  @id @default(uuid()) 
+  title  String  
   books  Book[]  @relation("BooksInCategory") // Define the opposite relation
 }
 
@@ -38,13 +39,22 @@ model Book {
   reviews         ReviewAndRating[] // Add this relation field
 }
 
-
 model ReviewAndRating {
-      review  String
-      rating  Int     @default(0)
-      userId  String  // Assuming userId is a UUID
-      bookId  String  // Assuming bookId is a UUID
-      user    User    @relation(fields: [userId], references: [id])
-      book    Book    @relation(fields: [bookId], references: [id])
-      @@id([userId, bookId])
-    }
+  review  String
+  rating  Int     @default(0)
+  userId  String 
+  bookId  String 
+  user    User    @relation(fields: [userId], references: [id])
+  book    Book    @relation(fields: [bookId], references: [id])
+  @@id([userId, bookId])
+}
+
+model Order {
+  id           String      @id @default(uuid()) 
+  userId       String      
+  orderedBooks Json        // Use Prisma's Json type to represent JSON data
+  status       String      @default("pending")
+  createdAt    DateTime    @default(now()) 
+  // Define the opposite relation on the User model
+  user         User        @relation(fields: [userId], references: [id])
+}

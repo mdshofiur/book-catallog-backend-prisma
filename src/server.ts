@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+import UserRouters from "./module/user/users.routers";
 
 dotenv.config();
 
@@ -12,6 +13,8 @@ app.use(bodyParser.json());
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
+
+app.use('/api/v1/auth', UserRouters);
 
 
 app.listen(port, async () => {
