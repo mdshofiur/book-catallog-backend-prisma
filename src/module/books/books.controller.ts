@@ -63,28 +63,101 @@ export const getAllBooksController = async (req: Request, res: Response): Promis
 /*                     Get Books by category id controller                    */
 /* -------------------------------------------------------------------------- */
 
-const getBooksByCategoryIdController = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const { categoryId } = req.params;
-        const books = await booksService.getBooksByCategoryIdService(categoryId);
-        sendApiResponse(res, {
-            success: true,
-            statusCode: 200,
-            message: 'Books retrieved successfully',
-            data: books,
-        });
-    } catch (error) {
-        sendApiResponse(res, {
-            success: false,
-            statusCode: 500,
-            message: `An error occurred while retrieving the books. ${(error as Error).message}`,
-        });
-    }
+async function getBooksByCategoryIdController(req: Request, res: Response) {
+  const categoryId = req.params.categoryId!;
+  const page = parseInt(req.query.page as string) || 1; 
+  const size = parseInt(req.query.size as string) || 10; 
+
+  const result = await booksService.getBooksByCategoryIdService(categoryId, page, size);
+
+  if (result.success) {
+    res.status(200).json(result);
+  } else {
+    res.status(result.statusCode || 500).json({
+      success: false,
+      message: result.message || 'Internal server error',
+    });
+  }
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                               Get Book by id                               */
+/* -------------------------------------------------------------------------- */
+
+const getBookByIdController = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const bookId = req.params.bookId;
+    const book = await booksService.getBookByIdService(bookId);
+    sendApiResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: 'Book fetched successfully',
+      data: book,
+    });
+  } catch (error) {
+    sendApiResponse(res, {
+      success: false,
+      statusCode: 500,
+      message: `An error occurred while fetching the book. ${(error as Error).message}`,
+    });
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   update                                   */
+/* -------------------------------------------------------------------------- */
+
+const updateBookByIdController = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const bookId = req.params.bookId;
+    const bookData = req.body;
+    const updatedBook = await booksService.updateBookByIdService(bookId, bookData);
+    sendApiResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: 'Book updated successfully',
+      data: updatedBook,
+    });
+  } catch (error) {
+    sendApiResponse(res, {
+      success: false,
+      statusCode: 500,
+      message: `An error occurred while updating the book. ${(error as Error).message}`,
+    });
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*                        delete book by id controller                        */
+/* -------------------------------------------------------------------------- */
+
+const deleteBookByIdController = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const bookId = req.params.bookId;
+    const deletedBook = await booksService.deleteBookByIdService(bookId);
+    sendApiResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: 'Book deleted successfully',
+      data: deletedBook,
+    });
+  } catch (error) {
+    sendApiResponse(res, {
+      success: false,
+      statusCode: 500,
+      message: `An error occurred while deleting the book. ${(error as Error).message}`,
+    });
+  }
 }
 
 
 export const booksController = { 
     createBookController,
     getAllBooksController,
-    getBooksByCategoryIdController
+    getBooksByCategoryIdController,
+    getBookByIdController,
+    updateBookByIdController,
+    deleteBookByIdController,
+
 }

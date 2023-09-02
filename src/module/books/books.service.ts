@@ -122,21 +122,112 @@ export const getAllBooksService = async (
 /*                      Get Books by category id service                      */
 /* -------------------------------------------------------------------------- */
 
-const getBooksByCategoryIdService = async (categoryId: string) => {
+async function getBooksByCategoryIdService(categoryId:string, page:number, size:number) {
   try {
+    // Calculate pagination offsets
+    const skip = (page - 1) * size;
+
+    // Fetch books by categoryId with pagination
     const books = await prisma.book.findMany({
       where: {
-        categoryId,
+        categoryId: categoryId,
+      },
+      skip,
+      take: size,
+      include: {
+        category: true,
       },
     });
-    return books;
+
+    // Count the total number of books for pagination
+    const total = await prisma.book.count({
+      where: {
+        categoryId: categoryId,
+      },
+    });
+
+    const totalPages = Math.ceil(total / size);
+
+    return {
+      success: true,
+      statusCode: 200,
+      message: 'Books with associated category data fetched successfully',
+      meta: {
+        page,
+        size,
+        total,
+        totalPage: totalPages,
+      },
+      data: books,
+    };
   } catch (error) {
-    throw new Error('Error fetching books');
+    console.error(error);
+    return {
+      success: false,
+      message: 'Internal server error',
+    };
+  }
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                           get book by id service                           */
+/* -------------------------------------------------------------------------- */
+
+const getBookByIdService = async (bookId: string) => {
+  try {
+    const book = await prisma.book.findUnique({
+      where: {
+        id: bookId,
+      }
+    });
+    return book;
+  } catch (error) {
+    throw new Error('An error occurred while fetching the book.');
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*                          Update book by id service                         */
+/* -------------------------------------------------------------------------- */
+
+const updateBookByIdService = async (bookId: string, bookData: any) => {
+  try {
+    const updatedBook = await prisma.book.update({
+      where: {
+        id: bookId,
+      },
+      data: bookData,
+    });
+    return updatedBook;
+  } catch (error) {
+    throw new Error('An error occurred while updating the book.');
+  }
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                          delete book by id service                         */
+/* -------------------------------------------------------------------------- */
+
+const deleteBookByIdService = async (bookId: string) => {
+  try {
+    const deletedBook = await prisma.book.delete({
+      where: {
+        id: bookId,
+      },
+    });
+    return deletedBook;
+  } catch (error) {
+    throw new Error('An error occurred while deleting the book.');
   }
 }
 
 export const booksService = {
   createBookService,
   getAllBooksService,
-  getBooksByCategoryIdService
+  getBooksByCategoryIdService,
+  getBookByIdService,
+  updateBookByIdService,
+  deleteBookByIdService,
 };

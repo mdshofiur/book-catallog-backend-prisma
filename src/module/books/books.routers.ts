@@ -11,4 +11,10 @@ BooksRouters.get('/', booksController.getAllBooksController);
 
 BooksRouters.get('/:categoryId/category', booksController.getBooksByCategoryIdController);
 
+BooksRouters.get('/:bookId', booksController.getBookByIdController);
+
+BooksRouters.put('/:bookId', booksController.updateBookByIdController);
+
+BooksRouters.delete('/:bookId', booksController.deleteBookByIdController);
+
 export default BooksRouters;
