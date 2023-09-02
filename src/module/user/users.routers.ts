@@ -12,5 +12,11 @@ UserRouters.post('/signin', userController.SignInController);
 
 UserRouters.get('/users', authenticate, userController.getAllUsersController);
 
+UserRouters.get('/users/:id', authenticate, userController.getSingleUserController);
+
+UserRouters.put('/users/:id', authenticate, userController.updateUserController);
+
+UserRouters.delete('/users/:id', authenticate, userController.deleteUserController);
+
 
 export default UserRouters;

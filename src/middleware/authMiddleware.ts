@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyAuthToken } from "../../utils/authUtils";
 
+
+// Add user property to the Request interface in Express namespace 
 declare global {
   namespace Express {
     interface Request {
@@ -9,6 +11,7 @@ declare global {
   }
 }
 
+// Authenticate the user
 function authenticate(req: Request, res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
@@ -27,8 +30,12 @@ function authenticate(req: Request, res: Response, next: NextFunction): void {
         role: decodedToken.role
       }
       res.locals.user = user;
-      next();
-    } 
+      if(res.locals.user.role === 'admin') {
+        next();
+      } else {
+        res.status(401).send({ message: "This Route Only allow For Admin" });
+      }
+    }
   } catch (error) {
     res.status(401).send({ message: "Invalid token" });
   }

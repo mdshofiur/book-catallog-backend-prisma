@@ -60,3 +60,50 @@ export const getAllUsersService = async () => {
     throw new Error('An error occurred while getting the users.');
   }
 };
+
+
+/* -------------------------------------------------------------------------- */
+/*                             Get user by id                                */
+/* -------------------------------------------------------------------------- */
+
+export const getUserByIdService = async (userId:string) => {
+  try {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    return user;
+  } catch (error) {
+    throw new Error('An error occurred while getting the user.');
+  }
+};
+
+
+/* -------------------------------------------------------------------------- */
+/*                             Update user by id                             */
+/* -------------------------------------------------------------------------- */
+export const updateUserByIdService = async (userId: string, userData: UserData) => {
+  try {
+    // Update the user
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: userData,
+    });
+   return updatedUser;
+  } catch (error) {
+    throw new Error('An error occurred while updating the user.');
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/*                             Delete user by id                             */
+/* -------------------------------------------------------------------------- */
+
+export const deleteUserService = async (userId: string) => {
+  try {
+    // Delete the user
+    const deletedUser = await prisma.user.delete({
+      where: { id: userId },
+    });
+    return deletedUser;
+  } catch (error) {
+    throw new Error('An error occurred while deleting the user.');
+  }
+};
