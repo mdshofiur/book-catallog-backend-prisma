@@ -77,7 +77,7 @@ const SignInController = async (req: Request, res: Response): Promise<void> => {
     sendApiResponse(res, {
       success: false,
       statusCode: 401,
-      error: `${(error as Error).message}`,
+      error: `Something went wrong.`,
     });
   }
 };

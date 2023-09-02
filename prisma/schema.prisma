@@ -51,11 +51,10 @@ model ReviewAndRating {
 }
 
 model Order {
-  id           String      @id @default(uuid()) 
-  userId       String      
-  orderedBooks Json        // Use Prisma's Json type to represent JSON data
+  id           String      @id @default(uuid())
+  userId       String
+  orderedBooks Json
   status       String      @default("pending")
-  createdAt    DateTime    @default(now()) 
-  // Define the opposite relation on the User model
+  createdAt    DateTime    @default(now())
   user         User        @relation(fields: [userId], references: [id])
 }

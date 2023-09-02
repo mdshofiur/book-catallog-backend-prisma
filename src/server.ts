@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import UserRouters from "./module/user/users.routers";
 import CategoryRouters from "./module/category/category.routers";
 import BooksRouters from "./module/books/books.routers";
+import ordersRoute from "./module/order/order.routers";
 
 
 dotenv.config();
@@ -25,7 +26,7 @@ app.use('/api/v1', CategoryRouters);
 
 app.use('/api/v1/books', BooksRouters);
 
-
+app.use('/api/v1/orders', ordersRoute)
 
 app.listen(port, async () => {
   console.log(`⚡️[server]: Server is running at ${port}`);
