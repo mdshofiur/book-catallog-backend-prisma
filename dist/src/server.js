@@ -19,12 +19,10 @@ const users_routers_1 = __importDefault(require("./module/user/users.routers"));
 const category_routers_1 = __importDefault(require("./module/category/category.routers"));
 const books_routers_1 = __importDefault(require("./module/books/books.routers"));
 const order_routers_1 = __importDefault(require("./module/order/order.routers"));
-const prisma_connection_1 = require("./middleware/prisma-connection");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.use(body_parser_1.default.json());
-app.use(prisma_connection_1.openPrismaConnection);
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
 });
@@ -33,7 +31,6 @@ app.use('/api/v1', users_routers_1.default);
 app.use('/api/v1', category_routers_1.default);
 app.use('/api/v1/books', books_routers_1.default);
 app.use('/api/v1/orders', order_routers_1.default);
-app.use(prisma_connection_1.closePrismaConnection);
 app.listen(port, () => __awaiter(void 0, void 0, void 0, function* () {
     console.log(`⚡️[server]: Server is running at ${port}`);
 }));
