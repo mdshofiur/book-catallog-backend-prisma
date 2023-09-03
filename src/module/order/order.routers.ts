@@ -12,4 +12,6 @@ ordersRoute.get('/', orderControllers.getAllOrdersController)
 
 ordersRoute.get('/customer', authenticate, orderControllers.getAllOrdersByUserController)
 
+ordersRoute.get('/:id', orderControllers.getOrderByIdController)
+
 export default ordersRoute;

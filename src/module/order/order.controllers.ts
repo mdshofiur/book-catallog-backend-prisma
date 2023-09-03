@@ -64,9 +64,7 @@ const getAllOrdersController = async (req: Request, res: Response) => {
 const getAllOrdersByUserController = async (req: Request, res: Response) => {
     try {
         const user = res.locals.user;
-        console.log("🚀  user:", user)
         const allOrders = await orderServices.getAllOrdersByUserService(user.userId);
-        // console.log("🚀 allOrders:", allOrders)
         sendApiResponse(res, {
         success: true,
         statusCode: 200,
@@ -82,8 +80,34 @@ const getAllOrdersByUserController = async (req: Request, res: Response) => {
     }
     }
 
+ /* -------------------------------------------------------------------------- */
+ /*                         Get Order by id controller                         */
+ /* -------------------------------------------------------------------------- */
+
+ const getOrderByIdController = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const order = await orderServices.getOrderByIdService(id);
+        sendApiResponse(res, {
+        success: true,
+        statusCode: 200,
+        message: 'Order fetched successfully',
+        data: order,
+        });
+    } catch (error) {
+        sendApiResponse(res, {
+        success: false,
+        statusCode: 500,
+        message: 'Error getting order',
+        });
+    }
+    }
+
+
+
 export const orderControllers = {
   createOrderController,
   getAllOrdersController,
-  getAllOrdersByUserController
+  getAllOrdersByUserController,
+  getOrderByIdController
 };

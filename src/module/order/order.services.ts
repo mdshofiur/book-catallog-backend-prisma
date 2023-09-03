@@ -51,8 +51,28 @@ const getAllOrdersByUserService = async (id: string) => {
     }
     }
 
+
+
+  /* -------------------------------------------------------------------------- */
+  /*                           Get order by id service                          */
+  /* -------------------------------------------------------------------------- */
+
+  const getOrderByIdService = async (id: string) => {
+    try {
+      const order = await prisma.order.findUnique({
+        where: {
+          id: id,
+        },
+      });
+      return order;
+    } catch (error) {
+      throw new Error("Error getting order");
+    }
+  }
+
 export const orderServices = {
   createOrderService,
   getAllOrdersService,
-  getAllOrdersByUserService
+  getAllOrdersByUserService,
+  getOrderByIdService
 };
