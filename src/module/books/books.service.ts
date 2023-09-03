@@ -1,5 +1,5 @@
-import { Prisma } from '@prisma/client';
 import prisma from '../../../lib/prisma-connect';
+import { Prisma } from '../../../prisma/generated/client';
 
 
 /* -------------------------------------------------------------------------- */
@@ -16,7 +16,7 @@ import prisma from '../../../lib/prisma-connect';
     });
     return newBook;
   } catch (error) {
-    throw new Error("An error occurred while creating the book.");
+    throw error;
   }
 };
 
@@ -112,7 +112,7 @@ export const getAllBooksService = async (
       data,
     };
   } catch (error) {
-    throw new Error('Error fetching books');
+    throw error;
   }
 };
 
@@ -160,7 +160,6 @@ async function getBooksByCategoryIdService(categoryId:string, page:number, size:
       data: books,
     };
   } catch (error) {
-    console.error(error);
     return {
       success: false,
       message: 'Internal server error',

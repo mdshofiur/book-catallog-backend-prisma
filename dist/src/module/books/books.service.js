@@ -28,7 +28,7 @@ const createBookService = (bookData) => __awaiter(void 0, void 0, void 0, functi
         return newBook;
     }
     catch (error) {
-        throw new Error("An error occurred while creating the book.");
+        throw error;
     }
 });
 /* -------------------------------------------------------------------------- */
@@ -108,7 +108,7 @@ categoryId, search) => __awaiter(void 0, void 0, void 0, function* () {
         };
     }
     catch (error) {
-        throw new Error('Error fetching books');
+        throw error;
     }
 });
 exports.getAllBooksService = getAllBooksService;
@@ -152,7 +152,6 @@ function getBooksByCategoryIdService(categoryId, page, size) {
             };
         }
         catch (error) {
-            console.error(error);
             return {
                 success: false,
                 message: 'Internal server error',

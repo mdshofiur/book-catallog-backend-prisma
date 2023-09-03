@@ -1,6 +1,6 @@
-import { User } from '@prisma/client';
 import { UserData } from '../../../types/user.type';
 import prisma from '../../../lib/prisma-connect';
+import { User } from '../../../prisma/generated/client';
 
 
 /* -------------------------------------------------------------------------- */
@@ -57,7 +57,7 @@ export const getAllUsersService = async () => {
     const users = await prisma.user.findMany();
     return users;
   } catch (error) {
-    throw new Error('An error occurred while getting the users.');
+    throw error;
   }
 };
 
