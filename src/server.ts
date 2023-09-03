@@ -5,6 +5,8 @@ import UserRouters from "./module/user/users.routers";
 import CategoryRouters from "./module/category/category.routers";
 import BooksRouters from "./module/books/books.routers";
 import ordersRoute from "./module/order/order.routers";
+import { CurrentUser } from "./middleware/currentUser";
+
 
 
 dotenv.config();

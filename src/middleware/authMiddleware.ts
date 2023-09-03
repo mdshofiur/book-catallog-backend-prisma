@@ -42,3 +42,4 @@ function authenticate(req: Request, res: Response, next: NextFunction): void {
 }
 
 export default authenticate;
+

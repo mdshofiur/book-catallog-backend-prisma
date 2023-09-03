@@ -2,6 +2,7 @@ import { orderServices } from "./order.services";
 import { Request, Response } from "express";
 import { sendApiResponse } from "../../../utils/apiResponse";
 
+
 /* -------------------------------------------------------------------------- */
 /*                           Create order controller                          */
 /* -------------------------------------------------------------------------- */
@@ -12,10 +13,10 @@ async function createOrderController(req:Request, res:Response) {
       
       // Assuming you have middleware that sets user data in res.locals
       const user = res.locals.user;
-    
       // Create the order using the orderServices
       const order = await orderServices.createOrderService(
         user.userId,
+        user.role,
         orderedBooks
       );
       sendApiResponse(res, {
@@ -80,29 +81,30 @@ const getAllOrdersByUserController = async (req: Request, res: Response) => {
     }
     }
 
- /* -------------------------------------------------------------------------- */
- /*                         Get Order by id controller                         */
- /* -------------------------------------------------------------------------- */
 
- const getOrderByIdController = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params;
-        const order = await orderServices.getOrderByIdService(id);
-        sendApiResponse(res, {
-        success: true,
-        statusCode: 200,
-        message: 'Order fetched successfully',
-        data: order,
-        });
-    } catch (error) {
-        sendApiResponse(res, {
-        success: false,
-        statusCode: 500,
-        message: 'Error getting order',
-        });
-    }
-    }
 
+/* -------------------------------------------------------------------------- */
+/*               Get Order by specific admin and customer controller          */
+/* -------------------------------------------------------------------------- */
+ async function getOrderByIdController(req: Request, res: Response) {
+      try {
+        const { orderId } = req.params;
+        const user = res.locals.user;
+        const order = await orderServices.getOrderByIdService(orderId, user.userId, user.role);
+        res.status(200).json({
+          success: true,
+          statusCode: 200,
+          message: 'Order fetched successfully',
+          data: order,
+        });
+      } catch (error:any) {
+        res.status(403).json({
+          success: false,
+          statusCode: 403,
+          message: error.message || 'Error fetching order',
+        });
+      }
+    }
 
 
 export const orderControllers = {
