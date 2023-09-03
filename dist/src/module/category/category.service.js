@@ -8,16 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.categoryService = void 0;
-const client_1 = require("@prisma/client"); // Import your Prisma client
-const prisma = new client_1.PrismaClient();
+const prisma_connect_1 = __importDefault(require("../../../lib/prisma-connect"));
 /* -------------------------------------------------------------------------- */
 /*                           Create category service                          */
 /* -------------------------------------------------------------------------- */
 const createCategory = (title) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const newCategory = yield prisma.category.create({
+        const newCategory = yield prisma_connect_1.default.category.create({
             data: {
                 title,
             },
@@ -33,7 +35,7 @@ const createCategory = (title) => __awaiter(void 0, void 0, void 0, function* ()
 /* -------------------------------------------------------------------------- */
 const getAllCategories = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const categories = yield prisma.category.findMany();
+        const categories = yield prisma_connect_1.default.category.findMany();
         return categories;
     }
     catch (error) {
@@ -45,7 +47,7 @@ const getAllCategories = () => __awaiter(void 0, void 0, void 0, function* () {
 /* -------------------------------------------------------------------------- */
 const getSingleCategory = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const category = yield prisma.category.findUnique({
+        const category = yield prisma_connect_1.default.category.findUnique({
             where: {
                 id: id,
             },
@@ -61,7 +63,7 @@ const getSingleCategory = (id) => __awaiter(void 0, void 0, void 0, function* ()
 /* -------------------------------------------------------------------------- */
 const updateCategory = (id, title) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const category = yield prisma.category.update({
+        const category = yield prisma_connect_1.default.category.update({
             where: {
                 id: id,
             },
@@ -80,7 +82,7 @@ const updateCategory = (id, title) => __awaiter(void 0, void 0, void 0, function
 /* -------------------------------------------------------------------------- */
 const deleteCategory = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const category = yield prisma.category.delete({
+        const category = yield prisma_connect_1.default.category.delete({
             where: {
                 id: id,
             },

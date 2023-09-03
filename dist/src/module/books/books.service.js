@@ -8,16 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.booksService = exports.getAllBooksService = void 0;
-const client_1 = require("@prisma/client"); // Import your Prisma client
-const prisma = new client_1.PrismaClient();
+const prisma_connect_1 = __importDefault(require("../../../lib/prisma-connect"));
 /* -------------------------------------------------------------------------- */
 /*                            Create books service                            */
 /* -------------------------------------------------------------------------- */
 const createBookService = (bookData) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const newBook = yield prisma.book.create({
+        const newBook = yield prisma_connect_1.default.book.create({
             data: bookData,
             include: {
                 category: true,
@@ -84,8 +86,8 @@ categoryId, search) => __awaiter(void 0, void 0, void 0, function* () {
                 },
             ];
         }
-        const total = yield prisma.book.count({ where });
-        const data = yield prisma.book.findMany({
+        const total = yield prisma_connect_1.default.book.count({ where });
+        const data = yield prisma_connect_1.default.book.findMany({
             where,
             skip,
             take: size,
@@ -119,7 +121,7 @@ function getBooksByCategoryIdService(categoryId, page, size) {
             // Calculate pagination offsets
             const skip = (page - 1) * size;
             // Fetch books by categoryId with pagination
-            const books = yield prisma.book.findMany({
+            const books = yield prisma_connect_1.default.book.findMany({
                 where: {
                     categoryId: categoryId,
                 },
@@ -130,7 +132,7 @@ function getBooksByCategoryIdService(categoryId, page, size) {
                 },
             });
             // Count the total number of books for pagination
-            const total = yield prisma.book.count({
+            const total = yield prisma_connect_1.default.book.count({
                 where: {
                     categoryId: categoryId,
                 },
@@ -163,7 +165,7 @@ function getBooksByCategoryIdService(categoryId, page, size) {
 /* -------------------------------------------------------------------------- */
 const getBookByIdService = (bookId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const book = yield prisma.book.findUnique({
+        const book = yield prisma_connect_1.default.book.findUnique({
             where: {
                 id: bookId,
             }
@@ -179,7 +181,7 @@ const getBookByIdService = (bookId) => __awaiter(void 0, void 0, void 0, functio
 /* -------------------------------------------------------------------------- */
 const updateBookByIdService = (bookId, bookData) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const updatedBook = yield prisma.book.update({
+        const updatedBook = yield prisma_connect_1.default.book.update({
             where: {
                 id: bookId,
             },
@@ -196,7 +198,7 @@ const updateBookByIdService = (bookId, bookData) => __awaiter(void 0, void 0, vo
 /* -------------------------------------------------------------------------- */
 const deleteBookByIdService = (bookId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const deletedBook = yield prisma.book.delete({
+        const deletedBook = yield prisma_connect_1.default.book.delete({
             where: {
                 id: bookId,
             },

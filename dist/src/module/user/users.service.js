@@ -8,16 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserProfileDataService = exports.deleteUserService = exports.updateUserByIdService = exports.getUserByIdService = exports.getAllUsersService = exports.authenticateUserService = exports.createUserService = void 0;
-const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient();
+const prisma_connect_1 = __importDefault(require("../../../lib/prisma-connect"));
 /* -------------------------------------------------------------------------- */
 /*                          Create a new user Service                         */
 /* -------------------------------------------------------------------------- */
 const createUserService = (userData) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const newUser = yield prisma.user.create({
+        const newUser = yield prisma_connect_1.default.user.create({
             data: userData,
         });
         return newUser;
@@ -29,7 +31,7 @@ const createUserService = (userData) => __awaiter(void 0, void 0, void 0, functi
 exports.createUserService = createUserService;
 const authenticateUserService = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield prisma.user.findUnique({ where: { email } });
+        const user = yield prisma_connect_1.default.user.findUnique({ where: { email } });
         if (!user || user.password !== password) {
             return { success: false, user: null }; // Authentication failed
         }
@@ -45,7 +47,7 @@ exports.authenticateUserService = authenticateUserService;
 /* -------------------------------------------------------------------------- */
 const getAllUsersService = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield prisma.user.findMany();
+        const users = yield prisma_connect_1.default.user.findMany();
         return users;
     }
     catch (error) {
@@ -58,7 +60,7 @@ exports.getAllUsersService = getAllUsersService;
 /* -------------------------------------------------------------------------- */
 const getUserByIdService = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield prisma.user.findUnique({ where: { id: userId } });
+        const user = yield prisma_connect_1.default.user.findUnique({ where: { id: userId } });
         return user;
     }
     catch (error) {
@@ -72,7 +74,7 @@ exports.getUserByIdService = getUserByIdService;
 const updateUserByIdService = (userId, userData) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Update the user
-        const updatedUser = yield prisma.user.update({
+        const updatedUser = yield prisma_connect_1.default.user.update({
             where: { id: userId },
             data: userData,
         });
@@ -89,7 +91,7 @@ exports.updateUserByIdService = updateUserByIdService;
 const deleteUserService = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Delete the user
-        const deletedUser = yield prisma.user.delete({
+        const deletedUser = yield prisma_connect_1.default.user.delete({
             where: { id: userId },
         });
         return deletedUser;
@@ -104,7 +106,7 @@ exports.deleteUserService = deleteUserService;
 /* -------------------------------------------------------------------------- */
 const getUserProfileDataService = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userProfileData = yield prisma.user.findUnique({
+        const userProfileData = yield prisma_connect_1.default.user.findUnique({
             where: { id: userId }
         });
         return userProfileData;

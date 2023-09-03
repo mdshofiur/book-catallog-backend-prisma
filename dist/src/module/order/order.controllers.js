@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderControllers = void 0;
-const order_services_1 = require("./order.services");
+const order_service_1 = require("./order.service");
 const apiResponse_1 = require("../../../utils/apiResponse");
 /* -------------------------------------------------------------------------- */
 /*                           Create order controller                          */
@@ -23,7 +23,7 @@ function createOrderController(req, res) {
             // Assuming you have middleware that sets user data in res.locals
             const user = res.locals.user;
             // Create the order using the orderServices
-            const order = yield order_services_1.orderServices.createOrderService(user.userId, user.role, orderedBooks);
+            const order = yield order_service_1.orderServices.createOrderService(user.userId, user.role, orderedBooks);
             (0, apiResponse_1.sendApiResponse)(res, {
                 success: true,
                 statusCode: 200,
@@ -45,7 +45,7 @@ function createOrderController(req, res) {
 /* -------------------------------------------------------------------------- */
 const getAllOrdersController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const allOrders = yield order_services_1.orderServices.getAllOrdersService();
+        const allOrders = yield order_service_1.orderServices.getAllOrdersService();
         (0, apiResponse_1.sendApiResponse)(res, {
             success: true,
             statusCode: 200,
@@ -67,7 +67,7 @@ const getAllOrdersController = (req, res) => __awaiter(void 0, void 0, void 0, f
 const getAllOrdersByUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = res.locals.user;
-        const allOrders = yield order_services_1.orderServices.getAllOrdersByUserService(user.userId);
+        const allOrders = yield order_service_1.orderServices.getAllOrdersByUserService(user.userId);
         (0, apiResponse_1.sendApiResponse)(res, {
             success: true,
             statusCode: 200,
@@ -91,7 +91,7 @@ function getOrderByIdController(req, res) {
         try {
             const { orderId } = req.params;
             const user = res.locals.user;
-            const order = yield order_services_1.orderServices.getOrderByIdService(orderId, user.userId, user.role);
+            const order = yield order_service_1.orderServices.getOrderByIdService(orderId, user.userId, user.role);
             res.status(200).json({
                 success: true,
                 statusCode: 200,
