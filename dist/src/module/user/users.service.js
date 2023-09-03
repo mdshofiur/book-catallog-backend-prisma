@@ -51,7 +51,7 @@ const getAllUsersService = () => __awaiter(void 0, void 0, void 0, function* () 
         return users;
     }
     catch (error) {
-        throw new Error('An error occurred while getting the users.');
+        throw error;
     }
 });
 exports.getAllUsersService = getAllUsersService;

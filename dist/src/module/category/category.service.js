@@ -50,6 +50,9 @@ const getSingleCategory = (id) => __awaiter(void 0, void 0, void 0, function* ()
         const category = yield prisma_connect_1.default.category.findUnique({
             where: {
                 id: id,
+                include: {
+                    books: true,
+                },
             },
         });
         return category;

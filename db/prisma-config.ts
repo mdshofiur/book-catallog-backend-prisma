@@ -17,6 +17,8 @@ export const disconnect = () => {
 
 // npx prisma studio
 
+// npm run postinstall
+
 
 
 // npx prisma migrate reset --preview-feature

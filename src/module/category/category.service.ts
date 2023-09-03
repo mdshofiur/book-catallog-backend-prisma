@@ -38,16 +38,19 @@ type Category = {
 /* -------------------------------------------------------------------------- */
 
 const getSingleCategory = async (id: string) => {
-    try {
-        const category = await prisma.category.findUnique({
-        where: {
-            id: id,
-        },
-        });
-        return category;
-    } catch (error) {
-        throw new Error("An error occurred while fetching the category.");
-    }
+  try {
+    const category = await prisma.category.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        books: true,
+      },
+    });
+    return category;
+  } catch (error) {
+    throw error;
+  }
 }
 
 /* -------------------------------------------------------------------------- */
