@@ -1,0 +1,67 @@
+// datasource db {
+//   url      = env("DATABASE_URL")
+//   provider = "postgresql"
+// }
+
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+model User {
+  id         String       @id @default(uuid())
+  name       String
+  email      String       @unique
+  password   String
+  role       String  
+  contactNo  String?
+  address    String?
+  profileImg String?
+  reviews    ReviewAndRating[] // Add this relation field
+  orders     Order[]        // Define the opposite relation
+}
+
+model Category {
+  id     String  @id @default(uuid()) 
+  title  String  @unique
+  books  Book[]  @relation("BooksInCategory") // Define the opposite relation
+}
+
+model Book {
+  id              String   @id @default(uuid()) // Generates a UUID
+  title           String
+  author          String
+  price           Float
+  genre           String
+  publicationDate String
+  categoryId      String   // Assuming that categoryId is a UUID
+  category        Category @relation("BooksInCategory", fields: [categoryId], references: [id])
+  reviews         ReviewAndRating[] // Add this relation field
+}
+
+
+model ReviewAndRating {
+  review  String
+  rating  Int     @default(0)
+  userId  String 
+  bookId  String 
+  user    User    @relation(fields: [userId], references: [id])
+  book    Book    @relation(fields: [bookId], references: [id])
+  @@id([userId, bookId])
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  userId       String
+  orderedBooks Json
+  status       String      @default("pending")
+  createdAt    DateTime    @default(now())
+  user         User        @relation(fields: [userId], references: [id])
+}
