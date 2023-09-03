@@ -25,11 +25,11 @@ async function createOrderController(req:Request, res:Response) {
         message: 'Order created successfully',
         data: order,
       });
-    } catch (error) {
+    } catch (error:any) {
       sendApiResponse(res, {
         success: false,
-        statusCode: 500,
-        message: 'Error creating order'
+        statusCode: 403,
+        message: error.message || 'Error fetching order',
       });
     }
   }

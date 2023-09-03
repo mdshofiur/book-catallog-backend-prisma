@@ -30,7 +30,7 @@ async function createOrderService(
     });
     return newOrder;
   } catch (error) {
-    throw new Error("Error creating order");
+    throw error;
   }
 }
 
