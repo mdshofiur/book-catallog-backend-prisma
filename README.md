@@ -1,6 +1,6 @@
 # book-catalog-backend-prisma
 
-## Live Link: https://example.com
+## Live Link: https://book-catallog-backend-prisma-beta.vercel.app
 
 ### Application Routes:
 
@@ -56,13 +56,13 @@ api/v1/orders/create-order (POST)
 
 api/v1/orders (GET)
 
-api/v1/orders/:orderId (GET)
+api/v1/orders/customer (GET)  (Only allow for customer)
+
+api/v1/orders/a581b60a-c55b-4444-b416-8f81ccec5207 (GET)
 
 #### Bonus Part:
 
-/api/v1/orders/:orderId (Get)
-
- /api/v1/profile (Get)
+api/v1/profile (Get)
 
 
 
