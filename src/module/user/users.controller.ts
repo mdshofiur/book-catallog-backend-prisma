@@ -6,7 +6,8 @@ import {
   deleteUserService,
   getAllUsersService,
   getUserByIdService,
-  updateUserByIdService
+  getUserProfileDataService,
+  updateUserByIdService,
 } from "./users.service";
 import { generateAuthToken } from "../../../utils/authUtils";
 import _ from "lodash";
@@ -135,40 +136,90 @@ const getSingleUserController = async (
   }
 };
 
-
-
 /* -------------------------------------------------------------------------- */
 /*                           Update User Controller                           */
 /* -------------------------------------------------------------------------- */
 
-const updateUserController = async (req: Request, res: Response): Promise<void> => {
+const updateUserController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const userId = req.params.id;
     const userData = req.body;
     // Update the user, omitting the 'password' field
-    const updatedUser = _.omit(await updateUserByIdService(userId, userData), "password");
-    sendApiResponse(res, { success: true, statusCode: 200, message: "User updated successfully!", data: updatedUser });
+    const updatedUser = _.omit(
+      await updateUserByIdService(userId, userData),
+      "password"
+    );
+    sendApiResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "User updated successfully!",
+      data: updatedUser,
+    });
   } catch (error) {
-    sendApiResponse(res, { success: false, statusCode: 500, message: 'User not found' });
+    sendApiResponse(res, {
+      success: false,
+      statusCode: 500,
+      message: "User not found",
+    });
   }
 };
-
 
 /* -------------------------------------------------------------------------- */
 /*                           Delete User Controller                           */
 /* -------------------------------------------------------------------------- */
 
-const deleteUserController = async (req: Request, res: Response): Promise<void> => { 
+const deleteUserController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const userId = req.params.id;
     const User = await deleteUserService(userId);
     const updateUser = _.omit(User, "password");
-    sendApiResponse(res, { success: true, statusCode: 200, message: "User deleted successfully!", data: updateUser });
+    sendApiResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "User deleted successfully!",
+      data: updateUser,
+    });
   } catch (error) {
-    sendApiResponse(res, { success: false, statusCode: 500, message: 'User not found' });
+    sendApiResponse(res, {
+      success: false,
+      statusCode: 500,
+      message: "User not found",
+    });
   }
-}
+};
 
+/* -------------------------------------------------------------------------- */
+/*                      Get User Profile Data Controller                      */
+/* -------------------------------------------------------------------------- */
+
+const getUserProfileDataController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const user = res.locals.user;
+    const userProfileData = await getUserProfileDataService(user.userId);
+    const emitPassword = _.omit(userProfileData, "password");
+    sendApiResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "User profile data fetched successfully!",
+      data: emitPassword,
+    });
+  } catch (error) {
+    sendApiResponse(res, {
+      success: false,
+      statusCode: 500,
+      message: "User not found",
+    });
+  }
+};
 
 export const userController = {
   createUserController,
@@ -176,5 +227,6 @@ export const userController = {
   getAllUsersController,
   getSingleUserController,
   updateUserController,
-  deleteUserController
+  deleteUserController,
+  getUserProfileDataController
 };

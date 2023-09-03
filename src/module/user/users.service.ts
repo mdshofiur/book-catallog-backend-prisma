@@ -107,3 +107,19 @@ export const deleteUserService = async (userId: string) => {
     throw new Error('An error occurred while deleting the user.');
   }
 };
+
+
+/* -------------------------------------------------------------------------- */
+/*                        Get User Profile Data Service                       */
+/* -------------------------------------------------------------------------- */
+
+export const getUserProfileDataService = async (userId: string) => {
+  try {
+    const userProfileData = await prisma.user.findUnique({
+      where: { id: userId }
+    });
+    return userProfileData;
+  } catch (error) {
+    throw new Error('An error occurred while getting the user profile data.');
+  }
+}
