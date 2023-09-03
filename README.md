@@ -60,9 +60,6 @@ Include an id that is saved in your database
 
 * api/v1/orders/a581b60a-c55b-4444-b416-8f81ccec5207 (GET)
 
-#### Bonus Part:
-
-* api/v1/profile (Get)
 
 
 
