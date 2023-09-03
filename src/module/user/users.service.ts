@@ -13,7 +13,7 @@ export const createUserService = async (userData:UserData) => {
     });
     return newUser;
   } catch (error) {
-    throw new Error('An error occurred while creating the user.');
+    throw error;
   }
 };
 
