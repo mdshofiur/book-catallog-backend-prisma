@@ -48,11 +48,11 @@ const getAllOrdersController = async (req: Request, res: Response) => {
         message: 'All orders fetched successfully',
         data: allOrders,
         });
-    } catch (error) {
+    } catch (error:any) {
         sendApiResponse(res, {
         success: false,
         statusCode: 500,
-        message: 'Error getting all orders',
+        message: error.message || 'Error getting all orders',
         });
     }
     }
@@ -72,11 +72,11 @@ const getAllOrdersByUserController = async (req: Request, res: Response) => {
         message: 'All orders fetched successfully',
         data: allOrders,
         });
-    } catch (error) {
+    } catch (error:any) {
         sendApiResponse(res, {
         success: false,
         statusCode: 500,
-        message: 'Error getting all orders',
+        message: error.message || 'Error fetching order',
         });
     }
     }

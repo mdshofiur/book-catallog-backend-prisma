@@ -43,7 +43,7 @@ const getAllOrdersService = async () => {
     const allOrders = await prisma.order.findMany();
     return allOrders;
   } catch (error) {
-    throw new Error("Error getting all orders");
+    throw error;
   }
 };
 
@@ -51,16 +51,27 @@ const getAllOrdersService = async () => {
 /*                       Get all Orders by specific user                      */
 /* -------------------------------------------------------------------------- */
 
-const getAllOrdersByUserService = async (id: string) => {
+const getAllOrdersByUserService = async (idUser: string) => {
   try {
+    // Fetch the order by its ID
+    const user = await prisma.user.findUnique({ where: { id: idUser } });
+    if (!user) {
+      throw new Error("user not found");
+    }
+    // Check if the user is not only a customer
+    if (user.role !== "customer") {
+      throw new Error(
+        "Permission denied. You do not have access to those order."
+      );
+    }
     const allOrders = await prisma.order.findMany({
       where: {
-        userId: id,
+        userId: idUser,
       },
     });
     return allOrders;
   } catch (error) {
-    throw new Error("Error getting all orders");
+    throw error;
   }
 };
 
