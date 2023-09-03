@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client"; // Import your Prisma client
-
-const prisma = new PrismaClient();
+import prisma from '../../../lib/prisma-connect';
 
 type Category = {
   title: string;

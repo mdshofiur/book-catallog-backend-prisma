@@ -1,7 +1,7 @@
-import { PrismaClient, User } from '@prisma/client';
-import { UserData } from '../../types/user.type';
+import { User } from '@prisma/client';
+import { UserData } from '../../../types/user.type';
+import prisma from '../../../lib/prisma-connect';
 
-const prisma = new PrismaClient();
 
 /* -------------------------------------------------------------------------- */
 /*                          Create a new user Service                         */

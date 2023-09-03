@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from '../../../lib/prisma-connect';
 
-const prisma = new PrismaClient();
 
 /* -------------------------------------------------------------------------- */
 /*                            Create order service                            */

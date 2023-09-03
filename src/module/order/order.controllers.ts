@@ -1,4 +1,4 @@
-import { orderServices } from "./order.services";
+import { orderServices } from "./order.service";
 import { Request, Response } from "express";
 import { sendApiResponse } from "../../../utils/apiResponse";
 
